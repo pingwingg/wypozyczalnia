@@ -417,7 +417,7 @@ function wyswietl_urle_uzyt($tablica_url) {
 				<table width="300" cellpadding="2" cellspacing="0">
   <?php
 	$kolor = "#cccccc";
-	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Dostępne do wypożyczenia :</strong></td>";
+	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Aktualnie wypożyczone :</strong></td>";
 	echo "<td><strong>Usuń?</strong></td></tr>";
 	if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
 		foreach ( $tablica_url as $url ) {
