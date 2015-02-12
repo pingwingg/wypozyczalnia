@@ -55,14 +55,7 @@ function loguj($nazwa_uz, $haslo) {
 function sprawdz_prawid_uzyt() {
 // sprawdzenie czy u�ytkownik jest zalogowany i powiadomienie go je�eli nie
   if (isset($_SESSION['prawid_uzyt'])) {
-      echo "Zalogowano jako ".$_SESSION['prawid_uzyt'].".<br />";
-  } else {
-     // nie jest zalogowany
-     tworz_naglowek_html('Problem:');
-     echo 'Musisz być zalogowanym by przegądać tę stronę.<br />';
-     tworz_HTML_URL('index.php', 'Logowanie');
-     tworz_stopke_html();
-     exit;
+      echo "Zalogowano jako <b>".$_SESSION['prawid_uzyt'].".</b></br><br />";
   }
 }
 

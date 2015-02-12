@@ -291,7 +291,9 @@ function wyswietlMenuNawigacjiGlowna() {
 	?>
  
 	<div class="col-lg-4">
-
+<?php 
+sprawdz_prawid_uzyt();
+?>
 				<p>
 					<button class="btn btn-sm btn-primary" type="button"
 						style="width: 170px" onclick="location='index.php'">Strona główna</button>
@@ -417,7 +419,7 @@ function wyswietl_urle_uzyt($tablica_url) {
 				<table width="300" cellpadding="2" cellspacing="0">
   <?php
 	$kolor = "#cccccc";
-	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Aktualnie wypożyczone :</strong></td>";
+	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Aktualnie Wypożyczone :</strong></td>";
 	echo "<td><strong>Usuń?</strong></td></tr>";
 	if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
 		foreach ( $tablica_url as $url ) {
