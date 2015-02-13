@@ -438,27 +438,7 @@ function wyswietl_urle_uzyt($tablica_url) {
 			</form>
 <?php
 }
-function wyswietl_menu_uzyt() {
-	// wyświetlenie menu opcji na stronie
-	?>
-<hr />
-			<a href="index.php">Home</a> &nbsp;|&nbsp; <a
-				href="dodaj_zak_formularz.php">Dodaj zakładkę</a> &nbsp;|&nbsp;
-<?php
-	global $tabela_zak;
-	if ($tabela_zak == true) {
-		echo "<a href=\"#\" onClick=\"tabela_zak.submit();\">Usuń zakładki</a>&nbsp;|&nbsp;";
-	} else {
-		echo "<span style=\"color: #cccccc\">Usuń zakładki</span>&nbsp;|&nbsp;";
-	}
-	?>
-<a href="zmiana_hasla_formularz.php">Zmiana hasła</a> <br /> <a
-				href="rekomendacja.php">Zarekomenduj URL-e</a> &nbsp;|&nbsp; <a
-				href="wylog.php">Wylogowanie</a>
-			<hr />
 
-<?php
-}
 function wyswietl_dodaj_zak_form() {
 	// wyświetlenie formularza do dodania nowych zakładek
 	?>
