@@ -1,10 +1,10 @@
 <?php
-  // Plik ten mo¿e zostaæ do³¹czony do wszystkich plików
-  // W ten sposób ka¿dy plik bêdzie zawiera³ wszystkie utworzone funkcje i wyj¹tki
+  // Plik ten moï¿½e zostaï¿½ doï¿½ï¿½czony do wszystkich plikï¿½w
+  // W ten sposï¿½b kaï¿½dy plik bï¿½dzie zawieraï¿½ wszystkie utworzone funkcje i wyjï¿½tki
   require_once('funkcje_prawid_dane.php'); 
   require_once('funkcje_bazy.php');
   require_once('funkcje_uwierz.php');
   require_once('funkcje_wyswietl.php');
-  require_once('funkcje_url.php');
+  require_once('funkcje_wypozyczenia.php');
 ?>
 
