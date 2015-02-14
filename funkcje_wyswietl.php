@@ -291,7 +291,9 @@ function wyswietlMenuNawigacjiGlowna() {
 	?>
  
 	<div class="col-lg-4">
-
+<?php 
+sprawdz_prawid_uzyt();
+?>
 				<p>
 					<button class="btn btn-sm btn-primary" type="button"
 						style="width: 170px" onclick="location='index.php'">Strona główna</button>
@@ -417,8 +419,7 @@ function wyswietl_urle_uzyt($tablica_url) {
 				<table width="300" cellpadding="2" cellspacing="0">
   <?php
 	$kolor = "#cccccc";
-	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Dostępne do wypożyczenia :</strong></td>";
-	echo "<td><strong>Usuń?</strong></td></tr>";
+	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Aktualnie Wypożyczone :</strong></td>";	
 	if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
 		foreach ( $tablica_url as $url ) {
 			if ($kolor == "#cccccc") {
@@ -427,10 +428,7 @@ function wyswietl_urle_uzyt($tablica_url) {
 				$kolor = "#cccccc";
 			}
 			// należy pamiętać o wywołaniu htmlspecialchars() przy wyświetlaniu danych użytkownika
-			echo "<tr bgcolor=\"" . $kolor . "\"><td><a href=\"" . $url . "\">" . htmlspecialchars ( $url ) . "</a></td>
-            <td><input type=\"checkbox\" name=\"usun_mnie[]\"
-             value=\"" . $url . "\"/></td>
-            </tr>";
+			echo "<tr bgcolor=\"" . $kolor . "\"><td><a href=\"" . $url . "\">" . htmlspecialchars ( $url ) . "</a></td></tr>";
 		}
 	} else {
 		echo "<tr><td>Brak zapisanych zakładek</td></tr>";
@@ -440,28 +438,7 @@ function wyswietl_urle_uzyt($tablica_url) {
 			</form>
 <?php
 }
-function wyswietl_menu_uzyt() {
-	// wyświetlenie menu opcji na stronie
-	?>
-<hr />
-			<a href="index.php">Home</a> &nbsp;|&nbsp; <a
-				href="dodaj_zak_formularz.php">Dodaj zakładkę</a> &nbsp;|&nbsp;
-<?php
-	// opcja usuń jedynie w wypadku wyświetlenia tabeli zakładek
-	global $tabela_zak;
-	if ($tabela_zak == true) {
-		echo "<a href=\"#\" onClick=\"tabela_zak.submit();\">Usuń zakładki</a>&nbsp;|&nbsp;";
-	} else {
-		echo "<span style=\"color: #cccccc\">Usuń zakładki</span>&nbsp;|&nbsp;";
-	}
-	?>
-<a href="zmiana_hasla_formularz.php">Zmiana hasła</a> <br /> <a
-				href="rekomendacja.php">Zarekomenduj URL-e</a> &nbsp;|&nbsp; <a
-				href="wylog.php">Wylogowanie</a>
-			<hr />
 
-<?php
-}
 function wyswietl_dodaj_zak_form() {
 	// wyświetlenie formularza do dodania nowych zakładek
 	?>
