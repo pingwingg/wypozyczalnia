@@ -29,6 +29,23 @@ function rejestruj($nazwa_uz, $email, $haslo) {
   return true;
 }
 
+function nowaRecenzja($tresc, $filmId, $uzytkownik) {
+// zarejestrowanie nowej osoby w bazie danych
+// zwraca true lub komunikat o b��dzie
+
+ // po��czenie z baz� danych
+  $lacz = lacz_bd();
+
+  // je�eli wszystko w porz�dku, umieszczenie w bazie danych  (DEFAULT,'".$tresc."', '".$uzytkownik.", '".$filmId."')");
+  $wynik = $lacz->query("insert into recenzja values
+                       (DEFAULT,'".$tresc."', '".$uzytkownik."', 1)");
+  if (!$wynik) {
+    throw new Exception('Rejestracja w bazie danych niemo�liwa � prosz� spr�bowa� p�niej.');
+  }
+
+  return true;
+}
+
 function loguj($nazwa_uz, $haslo) {
 // sprawdzenie nazwy u�ytkownika i has�a w bazie danych
 // je�eli si� zgadza, zwraca true

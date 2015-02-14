@@ -199,30 +199,13 @@ function wyswietl_informacje_filmu($tytul, $nrZdjecia, $obsada, $cena) {
 				<div>
 				
 				<!-- Kod odposiada za tworzenie recenzji oraz ich wyswietlanie -->
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Użytkownik</th>
-								<th>Recenzja</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>AAA</td>
-								<td>Tutaj beda wyświetlane recenzje</td>
-							</tr>
-							<tr>
-								<td>BBB</td>
-								<td>Tutaj beda wyświetlane recenzje</td>
-							</tr>
-							<tr>
-								<td>CCC</td>
-								<td>Tutaj beda wyświetlane recenzje</td>
-							</tr>
-						</tbody>
-					</table>
+					<?php 
+					if ($tablica_url = pobierz_rezenzje($_SESSION['prawid_uzyt'],$nrZdjecia)) {
+					  wyswietl_rezenzje($tablica_url);
+					}
+					?>
 
-					<form role="form" method="post" action="./?book=refleksje">
+					<form method="post" action="../nowa_recenzja.php">
 						<div class="form-group">
 							<label>Recenzja:</label>
 							<textarea name="tresc" class="form-control" rows="3"></textarea>
@@ -237,6 +220,38 @@ function wyswietl_informacje_filmu($tytul, $nrZdjecia, $obsada, $cena) {
 
 
   <?php
+}
+
+function wyswietl_rezenzje($tablica_url) {
+	// wyswietlenie URL-i użytkownika
+	
+	// ustawienie zmiennej globalnej, aby możliwe było sprawdzanie strony
+	global $tabela_zak;
+	$tabela_zak = true;
+	?>
+  <br />
+			<form name="tabela_zak" action="usun_zak.php" method="post">
+				<table width="600" cellpadding="2" cellspacing="0">
+  <?php
+	$kolor = "#cccccc";
+	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Recenzje:</strong></td>";	
+	if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
+		foreach ( $tablica_url as $url ) {
+			if ($kolor == "#cccccc") {
+				$kolor = "#ffffff";
+			} else {
+				$kolor = "#cccccc";
+			}
+			// należy pamiętać o wywołaniu htmlspecialchars() przy wyświetlaniu danych użytkownika
+			echo "<tr bgcolor=\"" . $kolor . "\"><td><text>$url<text></td></tr>";
+		}
+	} else {
+		echo "<tr><td>Brak zapisanych zakładek</td></tr>";
+	}
+	?>
+  </table>
+			</form>
+<?php
 }
 
 function wyswietlMenuNawigacjiFilmy() {
