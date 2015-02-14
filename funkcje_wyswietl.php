@@ -23,12 +23,8 @@ function tworz_naglowek_html($tytul) {
 </head>
 
 <body>
-
 	<div class="container">
 		<div class="header">
-
-
-
 			<div class="jumbotron">
 				<h2>
 					<b>Wypożyczalnia filmów</b>
@@ -38,9 +34,7 @@ function tworz_naglowek_html($tytul) {
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<blockquote>
-
 						<h3>Nowości w ofercie:</h3>
-
 						<p class="lead">
 							<img src="http://1.fwcdn.pl/po/10/89/1089/7196615.5.jpg"
 								alt="Plakat" border="0" align="left" valign="bottom" height="85"
@@ -50,22 +44,20 @@ function tworz_naglowek_html($tytul) {
 								width="60" /> <img
 								src="http://1.fwcdn.pl/po/10/19/1019/7386645.5.jpg" alt="Plakat"
 								border="0" align="left" valign="bottom" height="85" width="60" />
-
 						</p>
 					</blockquote>
 				</div>
 			</div>
 		</div>
-
-
 		<hr />
 <?php
 	if ($tytul) {
 		tworz_tytul_html ( $tytul );
 	}
 }
+
+// wyświetlenie stopki HTML
 function tworz_stopke_html() {
-	// wyświetlenie stopki HTML
 	?>
   </div>
 	</div>
@@ -84,8 +76,9 @@ function tworz_stopke_html() {
 </html>
 <?php
 }
-function tworz_tytul_html($tytul) {
+
 	// wyświetlenie tytułu
+function tworz_tytul_html($tytul) {
 	?>
 <h2><?php echo $tytul;?></h2>
 <?php
@@ -98,6 +91,7 @@ function tworz_HTML_URL($url, $nazwa) {
 <br />
 <?php
 }
+
 function wyswietl_informacje_witryny() {
 	// wyświetlenie informacji marketingowych
 	?>
@@ -144,31 +138,52 @@ function wyswietl_informacje_witryny() {
 			<p>Obsada: 'Elijah Wood, Sean Astin, Dominic Monaghan'</p>
 		</div>
 	</div>  
-
-
-
   <?php
 }
 
+// wyswietlenie zamowien
 function wyswietlZamowienia() {
-	// wyświetlenie informacji marketingowych
 	?>
 <div class="row marketing">
 		<div class="col-lg-8">
 			<div>
-		<?php 
-			if ($tablica_url = pobierz_urle_uzyt($_SESSION['prawid_uzyt'])) {
-			  wyswietl_urle_uzyt($tablica_url);
-			}
+			<?php 
+				if ($tablica_url = pobierz_zamowienia($_SESSION['prawid_uzyt'])) {
+				  wyswietl_zamowienia($tablica_url);
+				}
 			?>
-		</div>
+			</div>
 		</div>  
-
   <?php
 }
 
+function wyswietl_zamowienia($tablica_url) {
+	?>
+	<br />
+	<table width="300" cellpadding="2" cellspacing="0">
+	  <?php
+		$kolor = "#cccccc";
+		echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Aktualnie Wypożyczone :</strong></td>";	
+		if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
+			foreach ( $tablica_url as $url ) {
+				if ($kolor == "#cccccc") {
+					$kolor = "#ffffff";
+				} else {
+					$kolor = "#cccccc";
+				}
+				// należy pamiętać o wywołaniu htmlspecialchars() przy wyświetlaniu danych użytkownika
+				echo "<tr bgcolor=\"" . $kolor . "\"><td><a href=\"" . $url . "\">" . htmlspecialchars ( $url ) . "</a></td></tr>";
+			}
+		} else {
+			echo "<tr><td>Brak zapisanych zakładek</td></tr>";
+		}
+		?>
+	 </table>
+<?php
+}
+
+// wyświetlenie informacji o filmie
 function wyswietl_informacje_filmu($tytul, $nrZdjecia, $obsada, $cena) {
-	// wyświetlenie informacji marketingowych
 	?>
 <div class="row marketing">
 			<div class="col-lg-8">
@@ -176,81 +191,63 @@ function wyswietl_informacje_filmu($tytul, $nrZdjecia, $obsada, $cena) {
 				<div>
 					<img src="<?php echo $nrZdjecia ?>.jpg" alt="Plakat" border="0"
 						align="left" valign="bottom" height="200" width="150" />
-					<p>
-					
-					
-					<h3>Obsada:</h3>
-					</p>
+						<?php $_SESSION['idFilm']=$nrZdjecia; ?> 
+					<p><h3>Obsada:</h3></p>
 					<p><?php echo $obsada ?></p>
 					<br>
-					<p>
-					
-					
-					<h3>Koszt wypożyczenia <?php echo $cena ?> złotych.</h3>
-					</p>
+					<p><h3>Koszt wypożyczenia <?php echo $cena ?> złotych.</h3></p>
 					<br>
-
-					<button class="btn btn-sm btn-primary" type="button"
-						onclick="location='../wypozyczenia.php'">Wypożycz</button>
-					<br> <br> <br>
-
-
+				<!-- Kod odposiada za nowe wyporzyczenie -->	
+					<form method="post" action="../nowe_wyporzyczenie.php">
+						<button class="btn btn-sm btn-primary" type="submit">Wypożycz</button>
+					</form>
+					
+					<br> <br> 
 				</div>
 				<div>
-				
 				<!-- Kod odposiada za tworzenie recenzji oraz ich wyswietlanie -->
 					<?php 
-					if ($tablica_url = pobierz_rezenzje($_SESSION['prawid_uzyt'],$nrZdjecia)) {
-					  wyswietl_rezenzje($tablica_url);
+					if ($tablica_recenzji = pobierz_rezenzje($_SESSION['prawid_uzyt'],$nrZdjecia)) {
+					  wyswietl_rezenzje($tablica_recenzji);
 					}
 					?>
 
 					<form method="post" action="../nowa_recenzja.php">
 						<div class="form-group">
-							<label>Recenzja:</label>
+						<br/>
+							<label>Nowa recenzja:</label>
 							<textarea name="tresc" class="form-control" rows="3"></textarea>
 						</div>
 						<button type="submit" name="submit" class="btn btn-default">Wyślij</button>
 					</form>
 				</div>
-
-
 			</div>  
-
-
-
   <?php
 }
 
-function wyswietl_rezenzje($tablica_url) {
-	// wyswietlenie URL-i użytkownika
-	
-	// ustawienie zmiennej globalnej, aby możliwe było sprawdzanie strony
-	global $tabela_zak;
-	$tabela_zak = true;
+// wyswietlenie recenzji
+function wyswietl_rezenzje($tablica_recenzji) {
 	?>
-  <br />
-			<form name="tabela_zak" action="usun_zak.php" method="post">
-				<table width="600" cellpadding="2" cellspacing="0">
-  <?php
-	$kolor = "#cccccc";
-	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Recenzje:</strong></td>";	
-	if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
-		foreach ( $tablica_url as $url ) {
-			if ($kolor == "#cccccc") {
-				$kolor = "#ffffff";
-			} else {
-				$kolor = "#cccccc";
+  <br/>
+	<table width="600" cellpadding="2" cellspacing="0">
+		<?php
+		$kolor = "#cccccc";
+		echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Recenzje:</strong></td>";	
+		if ((is_array ( $tablica_recenzji )) && (count ( $tablica_recenzji ) > 0)) {
+			foreach ( $tablica_recenzji as $recenzja ) {
+				if ($kolor == "#cccccc") {
+					$kolor = "#ffffff";
+				} else {
+					$kolor = "#cccccc";
+				}
+				echo "<tr bgcolor=\"" . $kolor . "\"><td><text>$recenzja<text></td></tr>";
 			}
-			// należy pamiętać o wywołaniu htmlspecialchars() przy wyświetlaniu danych użytkownika
-			echo "<tr bgcolor=\"" . $kolor . "\"><td><text>$url<text></td></tr>";
+		} else {
+			echo "<tr><td>Brak zapisanych zakładek</td></tr>";
 		}
-	} else {
-		echo "<tr><td>Brak zapisanych zakładek</td></tr>";
-	}
-	?>
-  </table>
-			</form>
+		?>
+	</table>
+			
 <?php
 }
 
@@ -302,6 +299,7 @@ if (isset($_SESSION['prawid_uzyt'])) {
 
 <?php
 }
+
 function wyswietlMenuNawigacjiGlowna() {
 	?>
  
@@ -390,6 +388,7 @@ function wyswietl_form_log() {
 
 <?php
 }
+
 function wyswietl_form_rej() {
 	?>
  <form method="post" action="nowa_rejestracja.php">
@@ -422,58 +421,9 @@ function wyswietl_form_rej() {
 			</form>
 <?php
 }
-function wyswietl_urle_uzyt($tablica_url) {
-	// wyswietlenie URL-i użytkownika
-	
-	// ustawienie zmiennej globalnej, aby możliwe było sprawdzanie strony
-	global $tabela_zak;
-	$tabela_zak = true;
-	?>
-  <br />
-			<form name="tabela_zak" action="usun_zak.php" method="post">
-				<table width="300" cellpadding="2" cellspacing="0">
-  <?php
-	$kolor = "#cccccc";
-	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Aktualnie Wypożyczone :</strong></td>";	
-	if ((is_array ( $tablica_url )) && (count ( $tablica_url ) > 0)) {
-		foreach ( $tablica_url as $url ) {
-			if ($kolor == "#cccccc") {
-				$kolor = "#ffffff";
-			} else {
-				$kolor = "#cccccc";
-			}
-			// należy pamiętać o wywołaniu htmlspecialchars() przy wyświetlaniu danych użytkownika
-			echo "<tr bgcolor=\"" . $kolor . "\"><td><a href=\"" . $url . "\">" . htmlspecialchars ( $url ) . "</a></td></tr>";
-		}
-	} else {
-		echo "<tr><td>Brak zapisanych zakładek</td></tr>";
-	}
-	?>
-  </table>
-			</form>
-<?php
-}
 
-function wyswietl_dodaj_zak_form() {
-	// wyświetlenie formularza do dodania nowych zakładek
-	?>
-<form name="tabela_zak" action="dodaj_zak.php" method="post">
-				<table width="250" cellpadding="2" cellspacing="0" bgcolor="#cccccc">
-					<tr>
-						<td>Nowa zakładka:</td>
-						<td><input type="text" name="nowy_url" value="http://" size="30"
-							maxlength="255"></td>
-					</tr>
-					<tr>
-						<td colspan="2" align="center"><input type="submit"
-							value="Dodaj zakładkę"></td>
-					</tr>
-				</table>
-			</form>
-<?php
-}
+// wyświetlenie formularza zmiany hasła
 function wyswietl_haslo_form() {
-	// wyświetlenie formularza zmiany hasła
 	?>
 <div class="row marketing">
 				<div class="col-lg-8">
@@ -507,50 +457,4 @@ function wyswietl_haslo_form() {
 <?php
 }
 ;
-function wyswietl_zapomnij_form() {
-	// wyświetlenie formularza HTML do ustawiania nowych haseł
-	?>
-   <br />
-				<form action="zapomnij_haslo.php" method="post">
-					<table width="250" cellpadding="2" cellspacing="0"
-						bgcolor="#cccccc">
-						<tr>
-							<td>Nazwa użytkownika</td>
-							<td><input type="text" name="nazwa_uz" size="16" maxlength="16" /></td>
-						</tr>
-						<tr>
-							<td colspan="2" align="center"><input type="submit"
-								value="Zmiana hasła" /></td>
-						</tr>
-					</table>
-					<br />
-<?php
-}
-function wyswietl_rekomend_urle($tablica_url) {
-	// wyniki podobne do wyswietl_urle_uzyt
-	// zamiast wyświetlać URL-e użytkownika, wyświetla rekomendacje
-	?>
-  <br />
-					<table width="300" cellpadding="2" cellspacing="0">
-<?php
-	$kolor = "#cccccc";
-	echo "<tr bgcolor=\"" . $kolor . "\"><td><strong>Rekomendacje</strong></td></tr>";
-	if ((is_array ( $tablica_url ) && count ( $tablica_url ) > 0)) {
-		foreach ( $tablica_url as $url ) {
-			if ($kolor == "#cccccc") {
-				$kolor = "#ffffff";
-			} else {
-				$kolor = "#cccccc";
-			}
-			echo "<tr bgcolor=\"" . $kolor . "\">
-            <td><a href=\"" . $url . "\">" . htmlspecialchars ( $url ) . "</a></td></tr>";
-		}
-	} else {
-		echo "<tr><td>Aktualnie brak rekomendacji.</td></tr>";
-	}
-	?>
-  </table>
-<?php
-}
-
 ?>

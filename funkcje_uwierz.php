@@ -1,5 +1,4 @@
 <?php
-
 require_once('funkcje_bazy.php');
 
 function rejestruj($nazwa_uz, $email, $haslo) {
@@ -29,22 +28,6 @@ function rejestruj($nazwa_uz, $email, $haslo) {
   return true;
 }
 
-function nowaRecenzja($tresc, $filmId, $uzytkownik) {
-// zarejestrowanie nowej osoby w bazie danych
-// zwraca true lub komunikat o b��dzie
-
- // po��czenie z baz� danych
-  $lacz = lacz_bd();
-
-  // je�eli wszystko w porz�dku, umieszczenie w bazie danych  (DEFAULT,'".$tresc."', '".$uzytkownik.", '".$filmId."')");
-  $wynik = $lacz->query("insert into recenzja values
-                       (DEFAULT,'".$tresc."', '".$uzytkownik."', 1)");
-  if (!$wynik) {
-    throw new Exception('Rejestracja w bazie danych niemo�liwa � prosz� spr�bowa� p�niej.');
-  }
-
-  return true;
-}
 
 function loguj($nazwa_uz, $haslo) {
 // sprawdzenie nazwy u�ytkownika i has�a w bazie danych
@@ -75,6 +58,42 @@ function sprawdz_prawid_uzyt() {
       echo "Zalogowano jako <b>".$_SESSION['prawid_uzyt'].".</b></br><br />";
   }
 }
+
+function nowaRecenzja($tresc, $filmId, $uzytkownik) {
+// zarejestrowanie nowej osoby w bazie danych
+// zwraca true lub komunikat o b��dzie
+
+ // po��czenie z baz� danych
+  $lacz = lacz_bd();
+
+  // je�eli wszystko w porz�dku, umieszczenie w bazie danych 
+  $wynik = $lacz->query("insert into recenzja values
+                       (DEFAULT,'".$tresc."', '".$uzytkownik."', '$filmId')");
+  if (!$wynik) {
+    throw new Exception('Aby dodac recenzje musisz sie zalogowac');
+  }
+
+  return true;
+}
+
+function noweWypozyczenie($filmId, $uzytkownik) {
+// zarejestrowanie nowej osoby w bazie danych
+// zwraca true lub komunikat o b��dzie
+
+ // po��czenie z baz� danych
+  $lacz = lacz_bd();
+
+  // je�eli wszystko w porz�dku, umieszczenie w bazie danych 
+  $wynik = $lacz->query("insert into zamowienie values
+                       (DEFAULT,NOW(),1,'".$uzytkownik."', '$filmId')");
+  if (!$wynik) {
+    throw new Exception('Aby wypozyczyc film musisz sie zalogowac');
+  }
+
+  return true;
+}
+
+
 
 
 

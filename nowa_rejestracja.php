@@ -50,7 +50,6 @@
      // rejestracja zmiennej sesji
      $_SESSION['prawid_uzyt'] = $nazwa_uz;
 
-
      // stworzenie ��cza do strony cz�onkowskiej
      echo 'Rejestracja zakończyła się sukcesem. ';
      
